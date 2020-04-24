@@ -8,13 +8,34 @@ class RingBuffer:
         self.storage = DoublyLinkedList()
 
     def append(self, item):
-        pass
+
+        if self.capacity < 1:
+            return
+
+        if self.storage.length == 0:
+            self.storage.add_to_head(item)
+            self.current = self.storage.head
+
+        elif self.storage.length < self.capacity:
+            self.storage.add_to_tail(item)
+            self.current = self.current.next
+
+        else:
+            if self.current.next:
+                self.current = self.current.next
+            else:
+                self.current = self.storage.head
+            self.current.value = item
 
     def get(self):
         # Note:  This is the only [] allowed
         list_buffer_contents = []
 
-        # TODO: Your code here
+        item = self.storage.head
+
+        while item is not None:
+            list_buffer_contents.append(item.value)
+            item = item.next
 
         return list_buffer_contents
 
@@ -30,3 +51,19 @@ class ArrayRingBuffer:
 
     def get(self):
         pass
+
+
+# test = RingBuffer(5)
+
+# test.append('a')
+# test.append('b')
+# test.append('c')
+# test.append('d')
+# test.append('e')
+# test.append('f')
+# # test.append('g')
+# # test.append('h')
+# # test.append('i')
+# # test.append('j')
+# # test.append('k')
+# test.get()
